@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ukubona · Intelligence as Music</title>
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico"/>
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme:light)"/>
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image"/>
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@300;400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:         #08080D;
+  --surface:    #0F0F18;
+  --surface2:   #16161F;
+  --border:     #1E1E2E;
+  --amber:      #F59E0B;
+  --amber-dim:  #92610A;
+  --amber-glow: #F59E0B18;
+  --text:       #E8E8F0;
+  --muted:      #7070A0;
+  --faint:      #2A2A3A;
+  --red:        #F87171;
+  --orange:     #FB923C;
+  --yellow:     #FBBF24;
+  --green:      #4ADE80;
+  --blue:       #60A5FA;
+  --violet:     #A78BFA;
+  --serif:      'DM Serif Display', Georgia, serif;
+  --sans:       'DM Sans', system-ui, sans-serif;
+  --mono:       'DM Mono', 'Fira Mono', monospace;
+  --radius:     4px;
+}
+
+[data-theme="light"] {
+  --bg:         #F2F0EA;
+  --surface:    #FFFFFF;
+  --surface2:   #EDEAE2;
+  --border:     rgba(0,0,0,0.09);
+  --amber:      #92610A;
+  --amber-dim:  #7A5208;
+  --amber-glow: #92610A14;
+  --text:       #18160F;
+  --muted:      #6B6555;
+  --faint:      #D9D4C8;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.35s, color 0.35s;
+}
+
+/* ── NAV ── */
+.site-nav {
+  position: sticky; top: 0; z-index: 300;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: background 0.35s;
+}
+.nav-inner {
+  max-width: 780px; margin: 0 auto;
+  padding: 0 2rem; height: 52px;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.logo-wrap {
+  width: 28px; height: 28px;
+  flex-shrink: 0; position: relative;
+}
+.logo-wrap img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  position: absolute; top: 0; left: 0;
+  transition: opacity 0.4s;
+  animation: spin 90s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) { .logo-wrap img { animation: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logo-dark  { opacity: 1; }
+.logo-light { opacity: 0; }
+[data-theme="light"] .logo-dark  { opacity: 0; }
+[data-theme="light"] .logo-light { opacity: 1; }
+.nav-brand {
+  font-family: var(--serif); font-size: 0.95rem;
+  color: var(--text); flex: 1; letter-spacing: -0.01em;
+}
+.nav-sub {
+  font-family: var(--mono); font-size: 0.56rem;
+  color: var(--muted); letter-spacing: 0.08em; margin-left: 0.4rem;
+}
+.theme-btn {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 20px; padding: 0.26rem 0.8rem;
+  font-family: var(--mono); font-size: 0.58rem;
+  color: var(--muted); cursor: pointer; letter-spacing: 0.06em;
+  transition: background 0.2s, color 0.2s; flex-shrink: 0;
+}
+.theme-btn:hover { color: var(--text); }
+
+/* ── HEADER ── */
+header {
+  padding: 3.5rem 2rem 2rem;
+  max-width: 780px; margin: 0 auto;
+  border-bottom: 1px solid var(--border);
+}
+.eyebrow {
+  font-family: var(--mono); font-size: 0.7rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 1rem;
+}
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1; font-weight: 400;
+  color: var(--text); margin-bottom: 0.75rem;
+}
+h1 em { font-style: italic; color: var(--amber); }
+.subtitle {
+  font-size: 0.875rem; color: var(--muted);
+  font-weight: 300; max-width: 580px; line-height: 1.7;
+}
+
+/* ── MAIN ── */
+main { max-width: 780px; margin: 0 auto; padding: 0 2rem 6rem; }
+
+/* ── SECTION DIVIDER ── */
+.section-label {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 2.5rem 0 1.5rem;
+  font-family: var(--mono); font-size: 0.68rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted);
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+/* ── VIDEO ── */
+.video-wrap {
+  position: relative; width: 100%; padding-bottom: 56.25%;
+  background: #000; border-radius: 6px; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.video-wrap iframe {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%; border: none;
+}
+.video-caption {
+  margin-top: 0.85rem; font-size: 0.75rem;
+  color: var(--muted); font-weight: 300;
+  line-height: 1.6; font-style: italic;
+}
+.video-caption strong { color: var(--text); font-weight: 400; }
+
+/* ── ATTRIBUTION CHAIN ── */
+.chain {
+  display: flex; align-items: stretch;
+  gap: 0; margin: 2rem 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.chain-node {
+  flex: 1; padding: 1rem 1.1rem;
+  background: var(--surface); position: relative;
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
+}
+.chain-node:last-child { border-right: none; }
+.chain-node:hover { background: var(--surface2); }
+.chain-label {
+  font-family: var(--mono); font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.4rem;
+}
+.chain-name {
+  font-family: var(--serif); font-size: 1.1rem;
+  color: var(--text); display: block;
+}
+.chain-node.active .chain-name { color: var(--amber); }
+.chain-contrib {
+  font-size: 0.73rem; color: var(--muted);
+  font-weight: 300; line-height: 1.5;
+  margin-top: 0.35rem;
+}
+.chain-arrow {
+  align-self: center; padding: 0 0.5rem;
+  color: var(--amber-dim); font-size: 1rem;
+  flex-shrink: 0;
+}
+@media (max-width: 560px) {
+  .chain { flex-direction: column; }
+  .chain-node { border-right: none; border-bottom: 1px solid var(--border); }
+  .chain-node:last-child { border-bottom: none; }
+  .chain-arrow { display: none; }
+}
+
+/* ── PENTAD ── */
+.pentad {
+  position: relative;
+  display: flex; flex-direction: column; gap: 0;
+}
+.pentad::before {
+  content: '';
+  position: absolute; left: 27px; top: 28px; bottom: 28px; width: 2px;
+  background: linear-gradient(to bottom,
+    var(--amber-dim) 0%, var(--amber) 20%, var(--amber) 80%, var(--amber-dim) 100%);
+  opacity: 0.3; z-index: 0;
+}
+
+.penta-stage {
+  position: relative;
+  display: grid; grid-template-columns: 56px 1fr;
+  gap: 0 1.5rem; cursor: pointer;
+}
+.penta-node {
+  position: relative; display: flex;
+  flex-direction: column; align-items: center;
+  z-index: 1; padding-top: 20px;
+}
+.node-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--muted); background: var(--bg);
+  flex-shrink: 0; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.penta-stage.open .node-dot,
+.penta-stage:hover .node-dot {
+  border-color: var(--amber);
+  background: var(--amber-glow);
+  box-shadow: 0 0 14px var(--amber-dim);
+}
+.penta-body {
+  border: 1px solid transparent; border-radius: var(--radius);
+  margin: 8px 0; transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+}
+.penta-stage:hover .penta-body { border-color: var(--border); background: var(--surface); }
+.penta-stage.open .penta-body { border-color: var(--amber-dim); background: var(--surface); }
+
+.penta-head {
+  display: flex; align-items: baseline; gap: 1rem;
+  padding: 1rem 1.25rem 0.75rem; flex-wrap: wrap;
+}
+.stage-bantu {
+  font-family: var(--serif); font-size: 1.5rem;
+  line-height: 1; color: var(--text);
+  font-weight: 400; flex-shrink: 0;
+}
+.penta-stage.open .stage-bantu { color: var(--amber); }
+.stage-gloss {
+  font-size: 0.73rem; color: var(--muted);
+  font-weight: 300; font-style: italic;
+}
+.stage-math {
+  margin-left: auto; font-family: var(--mono);
+  font-size: 0.78rem; color: var(--amber-dim);
+  white-space: nowrap; flex-shrink: 0;
+}
+.penta-stage.open .stage-math { color: var(--amber); }
+
+/* expandable */
+.penta-detail {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s ease;
+}
+.penta-stage.open .penta-detail { grid-template-rows: 1fr; }
+.penta-detail-inner { overflow: hidden; }
+
+.penta-content {
+  padding: 0 1.25rem 1.25rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+@media (max-width: 520px) { .penta-content { grid-template-columns: 1fr; } }
+
+.dblock {
+  padding: 0.85rem 1rem; background: var(--surface2);
+  border-radius: var(--radius); border: 1px solid var(--faint);
+}
+.dblock.wide { grid-column: 1 / -1; }
+.dlabel {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.45rem;
+}
+.dblock p {
+  font-size: 0.82rem; line-height: 1.65;
+  color: var(--text); font-weight: 300;
+}
+.dblock code {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--amber); background: var(--bg);
+  padding: 0.1em 0.3em; border-radius: 2px;
+}
+
+/* ROYGBIV bar */
+.roygbiv {
+  display: flex; height: 4px; border-radius: 2px;
+  overflow: hidden; margin-top: 0.65rem;
+}
+.roygbiv span { flex: 1; }
+
+/* insight callout */
+.insight {
+  margin: 0 1.25rem 1.25rem;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--amber-dim);
+  background: var(--amber-glow);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.81rem; color: var(--text);
+  font-weight: 300; line-height: 1.65;
+  display: none;
+}
+.penta-stage.open .insight { display: block; }
+.insight strong { font-weight: 500; color: var(--amber); }
+
+/* feedback arc */
+.feedback-arc {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1.5rem 0 0; margin-left: 56px; margin-bottom: 1rem;
+}
+.arc-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right, var(--amber-dim), transparent);
+}
+.arc-label {
+  font-family: var(--mono); font-size: 0.65rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--amber-dim); white-space: nowrap;
+}
+.arc-arrow {
+  width: 0; height: 0;
+  border-top: 5px solid transparent; border-bottom: 5px solid transparent;
+  border-right: 7px solid var(--amber-dim);
+}
+
+/* ── ISOMORPHISM TABLE ── */
+.iso-section { margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+.iso-title {
+  font-family: var(--mono); font-size: 0.68rem;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.25rem;
+}
+.iso-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+.iso-table th {
+  font-family: var(--mono); font-size: 0.63rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); text-align: left;
+  padding: 0.4rem 0.75rem;
+  border-bottom: 1px solid var(--border); font-weight: 400;
+}
+.iso-table td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid var(--faint);
+  vertical-align: top; font-weight: 300;
+  color: var(--text); line-height: 1.5;
+}
+.iso-table tr:last-child td { border-bottom: none; }
+.iso-table td:first-child {
+  font-family: var(--serif); font-size: 1rem;
+  color: var(--amber); padding-right: 1rem;
+  white-space: nowrap;
+}
+.iso-table td code {
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--amber-dim);
+}
+.iso-table tr.timing-row td {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  font-style: italic;
+  color: var(--muted);
+}
+.iso-table tr.timing-row td:first-child {
+  color: var(--amber-dim);
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+/* ── SOVEREIGN METRIC BLOCK ── */
+.sovereign-section {
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.sovereign-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+@media (max-width: 520px) { .sovereign-grid { grid-template-columns: 1fr; } }
+.sovereign-card {
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.sovereign-card.accent {
+  border-color: var(--amber-dim);
+  background: var(--amber-glow);
+}
+.sovereign-card .dlabel {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.5rem;
+}
+.sovereign-card p {
+  font-size: 0.82rem; line-height: 1.65;
+  color: var(--text); font-weight: 300;
+}
+.sovereign-card code {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--amber); background: var(--bg);
+  padding: 0.1em 0.3em; border-radius: 2px;
+}
+.sovereign-thesis {
+  margin-top: 1.25rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface2);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  color: var(--text);
+  font-weight: 400;
+}
+.sovereign-thesis em { color: var(--amber); font-style: italic; }
+
+/* ── EPISTEMIC VELOCITY BLOCK ── */
+.ev-section {
+  margin-top: 3.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+.ev-formula-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+@media (max-width: 520px) { .ev-formula-grid { grid-template-columns: 1fr; } }
+.ev-card {
+  padding: 1.1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.ev-card .ev-label {
+  font-family: var(--mono); font-size: 0.62rem;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 0.6rem;
+}
+.ev-card .ev-eq {
+  font-family: var(--mono); font-size: 0.92rem;
+  color: var(--amber); margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+.ev-card p {
+  font-size: 0.8rem; line-height: 1.65;
+  color: var(--muted); font-weight: 300;
+}
+.ev-card p strong { color: var(--text); font-weight: 400; }
+.ev-max {
+  margin-top: 1rem;
+  padding: 1.1rem 1.25rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  display: flex; align-items: flex-start; gap: 1.25rem;
+}
+.ev-max .ev-eq-big {
+  font-family: var(--mono); font-size: 1.05rem;
+  color: var(--amber); flex-shrink: 0;
+  line-height: 1.7;
+}
+.ev-max p {
+  font-size: 0.8rem; line-height: 1.65;
+  color: var(--muted); font-weight: 300;
+  padding-top: 0.2rem;
+}
+.ev-max p strong { color: var(--text); font-weight: 400; }
+.ev-warning {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-left: 2px solid var(--amber-dim);
+  background: var(--amber-glow);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-size: 0.8rem; color: var(--text);
+  font-weight: 300; line-height: 1.65;
+}
+.ev-warning strong { color: var(--amber); font-weight: 500; }
+
+/* ── EQUATION BLOCK ── */
+.eq-block {
+  margin-top: 2rem; padding: 1.5rem;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); font-family: var(--mono);
+  font-size: 0.82rem; line-height: 2.1; color: var(--text);
+}
+.eq-label {
+  font-size: 0.63rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 0.75rem; font-family: var(--sans);
+}
+.eq-row { display: flex; align-items: center; gap: 0.75rem; }
+.eq-sym { color: var(--amber); min-width: 120px; font-size: 0.88rem; }
+.eq-arr { color: var(--muted); }
+.eq-desc { color: var(--muted); font-family: var(--sans); font-size: 0.77rem; font-weight: 300; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 4rem; border-top: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  max-width: 780px; margin-left: auto; margin-right: auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 0.5rem;
+}
+footer .brand { font-family: var(--serif); font-size: 1rem; color: var(--amber); font-style: italic; }
+footer .ts { font-family: var(--mono); font-size: 0.63rem; color: var(--muted); letter-spacing: 0.08em; }
+
+.hint {
+  font-size: 0.72rem; color: var(--muted); font-weight: 300;
+  margin-left: 56px; padding: 0.5rem 0 0; opacity: 0.6;
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="site-nav" aria-label="Site navigation">
+  <div class="nav-inner">
+    <div class="logo-wrap" aria-hidden="true">
+      <img class="logo-dark"  src="https://abikesa.github.io/logos/assets/ukubona-dark.png"  alt=""/>
+      <img class="logo-light" src="https://abikesa.github.io/logos/assets/ukubona-light.png" alt=""/>
+    </div>
+    <div class="nav-brand">Ukubona <span class="nav-sub">· Intelligence as Music · Session Compression</span></div>
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle color theme">light</button>
+  </div>
+</nav>
+
+<!-- ── HEADER ── -->
+<header>
+  <p class="eyebrow">Ukubona LLC · Epistemic Archive · 2026</p>
+  <h1>Intelligence is <em>Lossy Compression</em><br>in the Dominant Eigenspace</h1>
+  <p class="subtitle">
+    A pentadic compression of one session: equal temperament, gospel reharmonization,
+    the Hassabis criteria, and the Ukubona control loop converge on a single computational ontology.
+    Four AI systems. One isomorphism.
+  </p>
+</header>
+
+<main>
+
+  <!-- ── VIDEO ── -->
+  <div class="section-label">Origin signal · Gospel passing chords</div>
+  <div class="video-wrap">
+    <iframe
+      src="https://www.youtube.com/embed/qdWBOFW2xDA"
+      title="Gospel Passing Chords — the combinatorial search space that started everything"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+  <p class="video-caption">
+    <strong>Gospel piano passing chords</strong> — the video that ignited the session.
+    Equal temperament as coordinate chart. Berklee notation as tokenizer.
+    Reharmonization as Monte Carlo Tree Search over a discretized manifold.
+    The melody is the invariant. Everything else is sampled.
+  </p>
+
+  <!-- ── ATTRIBUTION CHAIN ── -->
+  <div class="section-label">Attribution · four systems, one isomorphism</div>
+  <div class="chain">
+    <div class="chain-node">
+      <div class="chain-label">I · first move</div>
+      <span class="chain-name">Grok</span>
+      <p class="chain-contrib">Music ↔ markets analogy. Equal temperament as libertarian coordinate system. Combinatorial search via 12-TET.</p>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-label">II · deepens</div>
+      <span class="chain-name">Gemini</span>
+      <p class="chain-contrib">Music ↔ intelligence, not markets. Hassabis criteria mapped precisely. Melody as invariant, not merely objective. Equal temperament as floating-point arithmetic for pitch.</p>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">
+      <div class="chain-label">III · formalises</div>
+      <span class="chain-name">GPT</span>
+      <p class="chain-contrib">Spectral decomposition of J. Melody as dominant eigenvector. SVD(J) reveals the principal cognitive modes. Jazz vs gospel as higher singular vectors.</p>
+    </div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node active">
+      <div class="chain-label">IV · closes</div>
+      <span class="chain-name">Claude</span>
+      <p class="chain-contrib">Structural identity, not analogy. Lossy compression in dominant eigenspace is how intelligence makes any search tractable. Okubala si Kulaba.</p>
+    </div>
+  </div>
+
+  <!-- ── PENTAD ── -->
+  <div class="section-label">Pentadic compression · click any stage</div>
+  <p class="hint">↓ tap to open</p>
+
+  <div class="pentad" id="pentad">
+
+    <!-- I -->
+    <div class="penta-stage" onclick="toggle(this)">
+      <div class="penta-node"><div class="node-dot"></div></div>
+      <div class="penta-body">
+        <div class="penta-head">
+          <span class="stage-bantu">Okubonabona</span>
+          <span class="stage-gloss">the raw landscape · suffering · joint distribution</span>
+          <span class="stage-math">θᵗ · continuous pitch manifold</span>
+        </div>
+        <div class="penta-detail"><div class="penta-detail-inner">
+          <div class="penta-content">
+            <div class="dblock">
+              <div class="dlabel">Musical reading</div>
+              <p>Continuous pitch space before discretization. All possible frequencies, all possible intervals, all possible harmonizations — simultaneously available and simultaneously intractable.</p>
+            </div>
+            <div class="dblock">
+              <div class="dlabel">AI reading</div>
+              <p>The raw amino acid sequence (<code>10³⁰⁰</code> conformations). The unplayed Go board (<code>10¹⁷⁰</code> positions). The unspoken intent before language finds it. The joint distribution before compression.</p>
+            </div>
+            <div class="dblock wide">
+              <div class="dlabel">The insight that opened the session</div>
+              <p>Grok named the libertarian analogy: equal temperament as a grid that sacrifices local purity for global mobility, like negative liberty distributing coercion minimally to unlock combinatorial individual paths. Correct intuition, wrong domain. The deeper isomorphism is not with markets — it is with intelligence itself.</p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>Stage I is not the starting point.</strong> It is what you inherit before compression. The tragedy of the search problem is visible here: 10³⁰⁰ protein conformations, astronomical harmonizations, the unbroken silence before the pianist's first chord. Something must discretize this. That is Stage II's gift.
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- II -->
+    <div class="penta-stage" onclick="toggle(this)">
+      <div class="penta-node"><div class="node-dot"></div></div>
+      <div class="penta-body">
+        <div class="penta-head">
+          <span class="stage-bantu">Kubona</span>
+          <span class="stage-gloss">to find · the coordinate chart · the discretization</span>
+          <span class="stage-math">J = ∂y/∂x · 12-TET → ℤ₁₂</span>
+        </div>
+        <div class="penta-detail"><div class="penta-detail-inner">
+          <div class="penta-content">
+            <div class="dblock">
+              <div class="dlabel">Musical reading</div>
+              <p>Equal temperament imposes a global basis: <code>P → ℤ₁₂</code>. Not the natural intervals of just intonation, but a universal coordinate chart. Slightly off everywhere so you can modulate freely anywhere. Floating-point arithmetic for pitch.</p>
+            </div>
+            <div class="dblock">
+              <div class="dlabel">AI reading</div>
+              <p>Hassabis Criterion 1: massive combinatorial search space <em>becomes navigable</em> only after a coordinate system exists. AlphaFold's amino acid tokenization. The transformer's vocabulary. The Go board's discrete grid.</p>
+            </div>
+            <div class="dblock wide">
+              <div class="dlabel">The Jacobian is not compression — it is sensitivity</div>
+              <p>GPT clarified this precisely: the Jacobian J = ∂y/∂x asks <em>which compressed variables actually matter</em>. Red cells in the ROYGBIV heatmap: tiny perturbation in harmony → catastrophic perceptual shift. Violet cells: almost irrelevant. The matrix is the causal ontology of the system, not its loss. Loss is downstream of the Jacobian.</p>
+              <div class="roygbiv" style="margin-top:0.8rem;">
+                <span style="background:#F87171"></span>
+                <span style="background:#FB923C"></span>
+                <span style="background:#FBBF24"></span>
+                <span style="background:#4ADE80"></span>
+                <span style="background:#60A5FA"></span>
+                <span style="background:#A78BFA"></span>
+              </div>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>Equal temperament is not the tensor.</strong> Gemini's correction: it is the coordinate chart. The tensor — the joint distribution over harmonic states — only becomes computable <em>after</em> the coordinate system exists. The discretization precedes the combinatorial explosion, not the other way round.
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- III -->
+    <div class="penta-stage" onclick="toggle(this)">
+      <div class="penta-node"><div class="node-dot"></div></div>
+      <div class="penta-body">
+        <div class="penta-head">
+          <span class="stage-bantu">Ivyabona</span>
+          <span class="stage-gloss">they have seen · compression · SVD(J)</span>
+          <span class="stage-math">f(σ²,λ,ε) · Berklee · eigenmodes</span>
+        </div>
+        <div class="penta-detail"><div class="penta-detail-inner">
+          <div class="penta-content">
+            <div class="dblock">
+              <div class="dlabel">Musical reading</div>
+              <p>Berklee notation: <code>Gmaj7(#11)</code> compresses voicing expectations, functional role, available tensions, stylistic priors, and likely resolutions into one token. Before: "that nice church chord." After: one symbol indexes thousands of exemplars. Naming is computation.</p>
+            </div>
+            <div class="dblock">
+              <div class="dlabel">Spectral reading</div>
+              <p>GPT's key move: <code>SVD(J)</code> reveals the dominant cognitive modes. First singular vector ≈ melodic identity (survives Amazing Grace in C, A♭, jazz, gospel, blues). Higher singular vectors ≈ stylistic variation. The invariant is always the dominant eigenmode.</p>
+            </div>
+            <div class="dblock wide">
+              <div class="dlabel">Melody as the invariant subspace</div>
+              <p>Gemini: melody is not the objective function. It is the <em>lowest-dimensional invariant subspace</em> — the latent variable you condition on, from which everything else is sampled. The harmonic search space is not constrained by melody; it is <em>defined</em> by it. This matches AlphaFold exactly: the amino acid sequence is the invariant; the folded 3D structure is one trajectory through the astronomically large equivalence class it defines.</p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>Rhythm as attention:</strong> You described rhythm as pockets of sound/silence. The full claim is more precise: rhythm allocates expectation through time. A groove creates prediction → violation → prediction → delay → release. Transformer attention does something structurally analogous — not every previous token matters equally, not every beat matters equally. <strong>Groove is temporal attention.</strong>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- IV -->
+    <div class="penta-stage" onclick="toggle(this)">
+      <div class="penta-node"><div class="node-dot"></div></div>
+      <div class="penta-body">
+        <div class="penta-head">
+          <span class="stage-bantu">Ukubona</span>
+          <span class="stage-gloss">to see · descent · jitter · the search itself</span>
+          <span class="stage-math">γ|ε_FGT|² · MCTS · SGD</span>
+        </div>
+        <div class="penta-detail"><div class="penta-detail-inner">
+          <div class="penta-content">
+            <div class="dblock">
+              <div class="dlabel">Musical reading</div>
+              <p>A gospel pianist is performing Monte Carlo Tree Search with an aesthetic evaluation function. They don't enumerate — they prune. Jitter: grace notes, trills, acciaccaturas, altered tensions perturb the trajectory. Most perturbations fail. Some discover a new basin. That is SGD.</p>
+            </div>
+            <div class="dblock">
+              <div class="dlabel">AI reading</div>
+              <p>AlphaGo's policy network prunes the exponential branching of Go exactly as the ear prunes harmonic choices. AlphaFold iteratively refines structure toward physical constraints rather than enumerating conformations. The search is guided, not brute-forced.</p>
+            </div>
+            <div class="dblock wide">
+              <div class="dlabel">Reharm as decoding</div>
+              <p>The session's most beautiful correspondence: an LLM generates latent meaning → many possible sentences. A gospel pianist generates melody → many possible harmonizations. The melody underdetermines the harmony exactly as semantics underdetermines wording. Generation is choosing one trajectory through an enormous equivalence class. <em>Reharmonization is decoding.</em></p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>The Federated Ground Truth principle in music:</strong> The pianist predicts at time <code>t</code>. The congregation reacts at <code>t+1</code>. That reaction — not any theory, not any label — is the loss. The LLM is a removable module. The world is the supervisor. Tradition updates only when the congregation keeps what it hears.
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- V -->
+    <div class="penta-stage" onclick="toggle(this)">
+      <div class="penta-node"><div class="node-dot"></div></div>
+      <div class="penta-body">
+        <div class="penta-head">
+          <span class="stage-bantu">Sawubona</span>
+          <span class="stage-gloss">I see you · updated vocabulary · the ecosystem</span>
+          <span class="stage-math">L(θᵗ⁺¹) · tradition updates</span>
+        </div>
+        <div class="penta-detail"><div class="penta-detail-inner">
+          <div class="penta-content">
+            <div class="dblock">
+              <div class="dlabel">Musical reading</div>
+              <p>Updated harmonic intuition. The passing chord that survived becomes tradition. The extension that consistently reduced prediction error gets kept. The voicing that the congregation rejected is pruned. Gospel evolves exactly as the control loop predicts.</p>
+            </div>
+            <div class="dblock">
+              <div class="dlabel">The deepest claim</div>
+              <p>Claude's closure: this is not analogy. The structural identity is: <strong>lossy compression in the dominant eigenspace, followed by guided search, supervised by ground truth.</strong> Music, biology, language, and intelligence did not develop this in parallel by coincidence. It is the only tractable solution to navigating exponential spaces with finite resources.</p>
+            </div>
+            <div class="dblock wide">
+              <div class="dlabel">Okubala si Kulaba</div>
+              <p>Counting is not seeing. Equal temperament counts twelve equal steps. The pianist sees the eigenmode — the invariant direction that melody occupies, around which all harmonic variation is sampled. AlphaFold counts amino acids. The Evoformer sees the co-evolutionary sensitivity matrix. The LLM counts tokens. Attention sees which ones matter. <em>Naming is compression. Compression is intelligence. Intelligence is not counting.</em></p>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>Sawubona acknowledges what Hassabis didn't say explicitly but demonstrated twice:</strong> the decisive advance in both AlphaGo and AlphaFold was not more compute or more data. It was learning a representation that made an otherwise intractable search tractable — a lossy compression that preserved the dominant singular vectors and discarded the residuals. The gospel pianist learned this in church. DeepMind learned it in Go. Evolution learned it in proteins. Same algorithm. Different substrate.
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+  </div><!-- /pentad -->
+
+  <div class="feedback-arc">
+    <div class="arc-arrow"></div>
+    <div class="arc-line"></div>
+    <span class="arc-label">θᵗ⁺¹ → θᵗ · loop closes · tradition is updated θ</span>
+  </div>
+
+  <!-- ── ISOMORPHISM TABLE ── -->
+  <div class="iso-section">
+    <p class="iso-title">Cross-domain isomorphism · one architecture, four substrates</p>
+    <table class="iso-table">
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Music</th>
+          <th>AlphaFold</th>
+          <th>LLM</th>
+          <th>Ukubona</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>I · θᵗ</td>
+          <td>Continuous pitch manifold</td>
+          <td>All 10³⁰⁰ conformations</td>
+          <td>All possible sentences</td>
+          <td>Joint distribution of event-stream</td>
+        </tr>
+        <tr>
+          <td>II · J</td>
+          <td>12-TET coordinate chart</td>
+          <td>Amino acid alphabet</td>
+          <td>Tokenizer vocabulary</td>
+          <td>Jacobian sensitivity matrix</td>
+        </tr>
+        <tr>
+          <td>III · SVD(J)</td>
+          <td>Berklee notation + eigenmodes</td>
+          <td>MSA pair representation</td>
+          <td>Attention pattern</td>
+          <td>Spectral decomposition · ROYGBIV</td>
+        </tr>
+        <tr>
+          <td>IV · γ|ε|²</td>
+          <td>Improvisation · MCTS + ear</td>
+          <td>Iterative structure refinement</td>
+          <td>Autoregressive decoding</td>
+          <td>Reality-constrained gradient descent</td>
+        </tr>
+        <tr>
+          <td>V · L(θᵗ⁺¹)</td>
+          <td>Tradition updates · new vocabulary</td>
+          <td>Updated PDB · new tools</td>
+          <td>Next training run</td>
+          <td>Updated policy · ecosystem output</td>
+        </tr>
+        <tr class="timing-row">
+          <td>timing</td>
+          <td><strong>offline prior</strong> — Berklee absorbed before the keys are touched. Tradition is sedimented eigenmode.</td>
+          <td>online — MSA computed during inference per sequence</td>
+          <td>online — attention recomputed per token</td>
+          <td>online — Jacobian estimated from live telemetry</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="margin-top:0.75rem; font-size:0.75rem; color:var(--muted); font-weight:300; line-height:1.6;">
+      <em>Compression timing matters:</em> the gospel musician is the only agent in this table who runs both simultaneously — offline prior (harmonic vocabulary absorbed over years) and online sensitivity (ear responding to this congregation, this room, this moment). That dual operation is what makes a master. It also distinguishes a well-deployed digital twin from a static report.
+    </p>
+  </div>
+
+  <!-- ── EQUATION ── -->
+  <div class="eq-block" style="margin-top:2.5rem;">
+    <p class="eq-label">The structural identity · not analogy</p>
+    <div class="eq-row"><span class="eq-sym">Invariant</span><span class="eq-arr">→</span><span class="eq-desc">melody · amino acid sequence · semantic intent · constitutional rule</span></div>
+    <div class="eq-row"><span class="eq-sym">↓</span></div>
+    <div class="eq-row"><span class="eq-sym">Discretization</span><span class="eq-arr">→</span><span class="eq-desc">12-TET · AA alphabet · tokenizer · legal code</span></div>
+    <div class="eq-row"><span class="eq-sym">↓</span></div>
+    <div class="eq-row"><span class="eq-sym">Lossy compression</span><span class="eq-arr">→</span><span class="eq-desc">Berklee · MSA repr · attention · Jacobian heatmap</span></div>
+    <div class="eq-row"><span class="eq-sym">↓</span></div>
+    <div class="eq-row"><span class="eq-sym">Guided search</span><span class="eq-arr">→</span><span class="eq-desc">improvisation · AlphaFold recycling · beam search · SGD</span></div>
+    <div class="eq-row"><span class="eq-sym">↓</span></div>
+    <div class="eq-row"><span class="eq-sym">Ground truth</span><span class="eq-arr">→</span><span class="eq-desc">congregation · CASP benchmark · human preference · ε_FGT</span></div>
+    <div class="eq-row"><span class="eq-sym">↓ ↺</span><span class="eq-arr"></span><span class="eq-desc">tradition updates · loop closes · Okubala si Kulaba</span></div>
+  </div>
+
+
+  <!-- ── SOVEREIGN METRIC ── -->
+  <div class="sovereign-section">
+    <p class="iso-title">The roundtable addition · the Jacobian is objective. the metric is sovereign.</p>
+
+    <div class="sovereign-grid">
+      <div class="sovereign-card">
+        <div class="dlabel">What the roundtable clarified</div>
+        <p>Every system uses <code>G = J⊤WJ</code> to describe the metric. But no one had named what <code>W</code> actually is. <code>W</code> is not a free parameter. <code>W</code> is a diagonal matrix whose entries are the weights a specific sovereign agent places on each dimension of the output space. The same Jacobian <code>J</code>, evaluated under different <code>W</code>, gives a completely different geodesic.</p>
+      </div>
+      <div class="sovereign-card">
+        <div class="dlabel">Why this is not a detail</div>
+        <p>Two patients with identical biomarkers can make opposite treatment decisions without either being wrong. They have different <code>W</code>. The ROYGBIV heatmap is not a property of the system. It is a property of the system <em>seen by a particular sovereign</em>. Red for one client may be violet for another. The heatmap is a portrait of values, not just sensitivities.</p>
+      </div>
+      <div class="sovereign-card">
+        <div class="dlabel">Musical reading</div>
+        <p>The same chord progression in the same key sounds tense to a classically trained ear and joyful to a gospel congregation. Same <code>J</code>. Different <code>W</code>. The pianist who reads the room is computing <code>W</code> in real time — not just the harmonic sensitivity, but which sensitivities matter to <em>this</em> audience, <em>this</em> moment.</p>
+      </div>
+      <div class="sovereign-card accent">
+        <div class="dlabel">The distinction from all other AI systems</div>
+        <p>Most systems optimize under their own <code>W</code> — the developer's, the platform's, the advertiser's. Ukubona's claim is that the digital twin hands the client their <code>W</code> and lets them walk the geodesic themselves. The twin computes the path. The sovereign chooses the direction. <em>Sovereignty is the ability to set your own W.</em></p>
+      </div>
+    </div>
+
+    <div class="sovereign-thesis">
+      The Jacobian is objective. <em>The metric is sovereign.</em><br>
+      <span style="font-size:0.82rem; font-family:var(--sans); font-weight:300; color:var(--muted); font-style:normal;">
+        G(θ) = J(θ)⊤ · W(θ) · J(θ) &nbsp;—&nbsp; where W encodes not what the system is, but what it means to the one who must decide.
+      </span>
+    </div>
+  </div>
+
+  <!-- ── EPISTEMIC VELOCITY ── -->
+  <div class="ev-section">
+    <p class="iso-title">Gated epistemic velocity · the roundtable correction</p>
+
+    <div class="ev-formula-grid">
+      <div class="ev-card">
+        <div class="ev-label">Original formulation (GPT)</div>
+        <div class="ev-eq">v_E = −dH / dC</div>
+        <p>Bits of uncertainty removed per unit epistemic cost (tokens, compute, human attention). Mathematically cleaner than the earlier <em>uncertainty × time / tokens</em>. But still missing one thing.</p>
+      </div>
+      <div class="ev-card">
+        <div class="ev-label">The correction (Claude)</div>
+        <div class="ev-eq">v_E = −dH<sub>gated</sub> / dC</div>
+        <p>Where <strong>H_gated</strong> is the entropy of the specific decision variable the client needs to act on — not total system entropy. A system that massively reduces irrelevant uncertainty while leaving H_gated untouched has high apparent epistemic velocity and zero practical value. Most consulting reports look exactly like this.</p>
+      </div>
+    </div>
+
+    <div class="ev-max">
+      <div class="ev-eq-big">max η = v_N / v_E<br><span style="font-size:0.75rem; color:var(--muted);">= (−dL/dR) / (−dH<sub>gated</sub>/dC)</span></div>
+      <p>
+        <strong>The digital twin's true objective:</strong> maximise the conversion of epistemic work into physical progress. Not merely reduce entropy — reduce the entropy that gates the Newtonian decision. <strong>v_N</strong> = real-world progress per unit resource (momentum per dollar). <strong>v_E</strong> = uncertainty removed per epistemic expenditure. The ratio η is what a good digital twin is actually maximising. The gospel pianist maximises this every Sunday: minimal rehearsal cost, maximal congregational resolution.
+      </p>
+    </div>
+
+    <div class="ev-warning">
+      <strong>The premature formalisation warning:</strong> The rootless D9 functions as V9 in G major because the bassist is already holding the root — the systemic environment implies it. This formalism should wait until a specific client engagement demands a specific number, then be derived from that constraint rather than imposed from above. The ontology is ready. The operationalisation follows the scalar, not the other way round.
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span class="brand">Ukubona LLC</span>
+  <span class="ts">Intelligence as Music · Session Compression · 2026 · Grok → Gemini → GPT → Claude · extended by roundtable</span>
+</footer>
+
+<script>
+(function(){
+  var html = document.documentElement;
+  var btn  = document.getElementById('theme-btn');
+  var curr = 'dark';
+  function apply(t){
+    curr = t;
+    html.setAttribute('data-theme', t);
+    btn.textContent = t === 'dark' ? 'light' : 'dark';
+  }
+  btn.addEventListener('click', function(){ apply(curr === 'dark' ? 'light' : 'dark'); });
+  apply('dark');
+})();
+
+function toggle(el) {
+  var wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.penta-stage').forEach(function(s){ s.classList.remove('open'); });
+  if (!wasOpen) el.classList.add('open');
+}
+</script>
+</body>
+</html>
